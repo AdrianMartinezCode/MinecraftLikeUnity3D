@@ -65,7 +65,10 @@
     <Compile Include="Assets\Scripts\CharacterController.cs" />
     <Compile Include="Assets\Scripts\Chunk.cs" />
     <Compile Include="Assets\Scripts\ClickOnFaceScript.cs" />
+    <Compile Include="Assets\Scripts\Cube.cs" />
+    <Compile Include="Assets\Scripts\CubeQuadsInfo.cs" />
     <Compile Include="Assets\Scripts\MeshBuilder.cs" />
+    <Compile Include="Assets\Scripts\QuadInfo.cs" />
     <Compile Include="Assets\Scripts\WorldData.cs" />
     <Compile Include="Assets\Scripts\WorldGameObject.cs" />
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />

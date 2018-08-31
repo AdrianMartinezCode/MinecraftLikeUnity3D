@@ -9,6 +9,7 @@ public class WorldGameObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         world = new WorldData();
+        world.Start();
 	}
 	
 	// Update is called once per frame

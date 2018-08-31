@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct Vector3Int
+/*public struct Vector3Int
 {
     public int x, y, z;
     public Vector3Int(int x, int y, int z)
@@ -11,22 +11,33 @@ public struct Vector3Int
         this.y = y;
         this.z = z;
     }
-}
+}*/
 
-public class WorldData : MonoBehaviour {
+public class WorldData : MonoBehaviour
+{
+    public readonly static int DEFAULT_CHUNK_SIZE = 16;
+    public readonly static int NUM_CHUNKS = 4;
+    public readonly static int SIZE_EDGE_CUBE = 1;
 
-    //public 
-    public int chunkWidth, chunkHeight, chunkDepth;
-    public int chunksX, chunksY, chunksZ;
+    // In cubes!
+    public int chunkWidth = DEFAULT_CHUNK_SIZE, chunkHeight = DEFAULT_CHUNK_SIZE, chunkDepth = DEFAULT_CHUNK_SIZE;
+
+    // In chunks!
+    public int chunksX = NUM_CHUNKS, chunksY = NUM_CHUNKS, chunksZ = NUM_CHUNKS;
+
+    // In measure unities
+    public float sizeEdgeX = SIZE_EDGE_CUBE, sizeEdgeY = SIZE_EDGE_CUBE, sizeEdgeZ = SIZE_EDGE_CUBE;
 
     public Chunk[,,] chunks;
-    public int radiusWorldChunkX, radiusWorldChunkY, radiusWorldChunkZ;
+    public int radiusWorldChunkX, radiusWorldChunkY, radiusWorldChunkZ; // in chunks
 
     private void InitVariables()
     {
-        chunkWidth = chunkHeight = chunkDepth = 16;
-        chunksX = chunksY = chunksZ = 8;
+        //chunkWidth = chunkHeight = chunkDepth = 16;
+        //chunksX = chunksY = chunksZ = 2;
         radiusWorldChunkX = chunksX / 2;
+        radiusWorldChunkY = chunksY / 2;
+        radiusWorldChunkZ = chunksZ / 2;
     }
 
     private Vector3Int GetRealChunkCoords(int x, int y, int z)
@@ -43,21 +54,23 @@ public class WorldData : MonoBehaviour {
             {
                 for (int z = 0; z < chunksZ; z++)
                 {
-                    chunks[x, y, z] = new Chunk();
-                    chunks[x, y, z].AssignCoords(GetRealChunkCoords(x,y,z));
+                    //chunks[x, y, z] = new Chunk();
+                    GameObject chunk = GameObject.Instantiate<Chunk>()
+                    //chunks[x, y, z].AssignCoords(GetRealChunkCoords(x,y,z));
+                    chunks[x, y, z].Build(this, new Vector3Int(x, y, z), chunkWidth, chunkHeight, chunkDepth);
                 }
             }
         }
     }
 
     // Use this for initialization
-    void Start () {
+    public void Start () {
         InitVariables();
         InitChunkGrid();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
 		
 	}
 }
