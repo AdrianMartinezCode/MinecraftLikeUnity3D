@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cube {
+public class Cube : MonoBehaviour {
 
     /*
      *  ID  -   Name
@@ -12,17 +12,55 @@ public class Cube {
      * 
      */
 
-    public int id;
+    private int id;
+    private CubeQuadsInfo quadsInfo;
+    private Chunk parentChunk;
 
-    public Cube(int id)
+    void Start()
+    {
+        
+    }
+
+    void Update()
+    {
+        
+    }
+
+    /*public Cube(int id)
     {
         this.id = id;
-    }
+    }*/
 
     public int Id
     {
         get { return id; }
         set { id = value; }
+    }
+
+    public CubeQuadsInfo QuadsInfo
+    {
+        get
+        {
+            return quadsInfo;
+        }
+
+        set
+        {
+            quadsInfo = value;
+        }
+    }
+
+    public Chunk ParentChunk
+    {
+        get
+        {
+            return parentChunk;
+        }
+
+        set
+        {
+            parentChunk = value;
+        }
     }
 
     public bool IsTransparentCube()

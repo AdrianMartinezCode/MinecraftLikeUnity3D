@@ -12,7 +12,7 @@ public class MeshBuilder
     public MeshBuilder(Chunk chunk)
     {
         this.chunk = chunk;
-        BuildAllCubes();
+        //BuildAllCubes();
 
 
 
@@ -23,12 +23,15 @@ public class MeshBuilder
     {
         cubes = new Dictionary<Vector3Int, CubeQuadsInfo>();
 
+        /*
+         * Already build the meshes every CubeQuadInfo
+         */ 
         BuildDataFaces();
 
         
 
 
-        List<Vector3> allVerts = new List<Vector3>();
+        /*List<Vector3> allVerts = new List<Vector3>();
         List<Vector3> allNormals = new List<Vector3>();
         List<Vector2> allUvs = new List<Vector2>();
         List<int> allInds = new List<int>();
@@ -44,7 +47,8 @@ public class MeshBuilder
                 values[i] += currInds;
             }
             allInds.AddRange(values);
-            currInds += values.Count;
+            //currInds += values.Count;
+            currInds += p.Value.GetTotalNumVertices();
 
         }
 
@@ -56,21 +60,14 @@ public class MeshBuilder
             uv = allUvs.ToArray(),
             triangles = allInds.ToArray()
         };
-        mf.mesh = mesh;
+        mf.mesh = mesh;*/
         //mesh.RecalculateBounds();
 
 
     }
 
     // x, y, z in the current chunk
-    public Vector3 GetRealCoordinates(int x, int y, int z)
-    {
-        return new Vector3(
-            chunk.Xchunk * chunk.World.chunkWidth + x,
-            chunk.Ychunk * chunk.World.chunkHeight + y,
-            chunk.Zchunk * chunk.World.chunkDepth + z
-        );
-    }
+    
 
     public void BuildDataFaces()
     {
@@ -89,7 +86,12 @@ public class MeshBuilder
                         KeyValuePair<bool[], bool> vis = FaceVisibles(x, y, z, xLength, yLength, zLength);
                         if (vis.Value)
                         {
-                            cubes.Add(new Vector3Int(x, y, z), new CubeQuadsInfo(vis.Key, GetRealCoordinates(x, y, z), chunk.World.sizeEdgeX));
+                            //Debug.Log("Hola " + x + " " + y + " " + z);
+                            CubeQuadsInfo qbi = new CubeQuadsInfo(chunk.Cubes[x, y, z]);
+                            //Debug.Log(chunk.Cubes[x, y, z]);
+                            cubes.Add(new Vector3Int(x, y, z), qbi);
+                            chunk.Cubes[x, y, z].QuadsInfo = qbi;
+                            qbi.BuildFaces(vis.Key);
                         }
                     }
                 }
@@ -97,12 +99,40 @@ public class MeshBuilder
         }
     }
 
+    public void DestroyDataFaces()
+    {
+        /*int xLength = chunk.Cubes.GetLength(0);
+        int yLength = chunk.Cubes.GetLength(1);
+        int zLength = chunk.Cubes.GetLength(2);*/
+
+        /*for (int x = 0; x < xLength; x++)
+        {
+            for (int y = 0; y < yLength; y++)
+            {
+                for (int z = 0; z < zLength; z++)
+                {
+                    GameObject.Destroy(chunk.Cubes[x, y, z].GetComponent<MeshFilter>().mesh);
+                    chunk.Cubes[x, y, z].QuadsInfo = null;
+                    
+                }
+            }
+        }*/
+
+        foreach (KeyValuePair<Vector3Int, CubeQuadsInfo> p in cubes)
+        {
+            GameObject.Destroy(p.Value.OwnCube.GetComponent<MeshFilter>().mesh);
+            p.Value.OwnCube.QuadsInfo = null;
+        }
+        cubes.Clear();
+    }
+
 
     public KeyValuePair<bool[],bool> FaceVisibles(int x, int y, int z, int xLength, int yLength, int zLength)
     {
-        // Down face
+        
         bool anyFaceVisible = false;
 
+        // Down face
         bool[] bfaces = new bool[6];
         if (y == 0)
         {
@@ -112,7 +142,7 @@ public class MeshBuilder
         {
             bfaces[1] = chunk.Cubes[x, y - 1, z].IsTransparentCube();
         }
-
+        //bfaces[1] = false;
         anyFaceVisible = anyFaceVisible || bfaces[1];
 
         // Up face
@@ -124,6 +154,7 @@ public class MeshBuilder
         {
             bfaces[0] = chunk.Cubes[x, y + 1, z].IsTransparentCube();
         }
+        //bfaces[0] = false;
         anyFaceVisible = anyFaceVisible || bfaces[0];
         // Left face
         if (x == 0) {
@@ -131,6 +162,7 @@ public class MeshBuilder
         } else {
             bfaces[2] = chunk.Cubes[x - 1, y, z].IsTransparentCube();
         }
+        //bfaces[2] = false;
         anyFaceVisible = anyFaceVisible || bfaces[2];
 
         // Right face
@@ -139,6 +171,7 @@ public class MeshBuilder
         } else {
             bfaces[3] = chunk.Cubes[x + 1, y, z].IsTransparentCube();
         }
+        //bfaces[3] = false;
         anyFaceVisible = anyFaceVisible || bfaces[3];
 
         // Front face
@@ -150,6 +183,7 @@ public class MeshBuilder
         {
             bfaces[4] = chunk.Cubes[x, y, z - 1].IsTransparentCube();
         }
+        //bfaces[4] = true;
         anyFaceVisible = anyFaceVisible || bfaces[4];
         // Back face
         if (z == xLength - 1)
@@ -160,6 +194,7 @@ public class MeshBuilder
         {
             bfaces[5] = chunk.Cubes[x, y, z + 1].IsTransparentCube();
         }
+        //bfaces[5] = true;
         anyFaceVisible = anyFaceVisible || bfaces[5];
 
 

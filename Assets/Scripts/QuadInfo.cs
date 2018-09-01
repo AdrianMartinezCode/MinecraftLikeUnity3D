@@ -10,7 +10,7 @@ public class QuadInfo {
     List<int> triangles;
 
     
-    public QuadInfo(Vector3 normal, Vector3[] verts)
+    public QuadInfo(Vector3 normal, List<Vector3> verts, List<int> triangles)
     {
         //uv = new Vector2[] { , new Vector2(1, 0), new Vector2(0, 1), new Vector2(1, 1) };
         uv = new List<Vector2>
@@ -21,11 +21,12 @@ public class QuadInfo {
             new Vector2(1, 1)
         };
 
-        triangles = new List<int>() { 0, 2, 1, 2, 3, 1 };
+        //triangles = new List<int>() { 0, 2, 1, 2, 3, 1 };
+        this.triangles = triangles;
 
         normals = new List<Vector3> { normal, normal, normal, normal };
 
-        vertices = new List<Vector3>(verts);
+        vertices = verts;
         
     }
 
