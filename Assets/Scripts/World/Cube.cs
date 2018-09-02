@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cube : MonoBehaviour {
+public class Cube {
 
     /*
      *  ID  -   Name
@@ -15,6 +15,8 @@ public class Cube : MonoBehaviour {
     private int id;
     private CubeQuadsInfo quadsInfo;
     private Chunk parentChunk;
+    private Vector3 position;
+    
 
     void Start()
     {
@@ -60,6 +62,19 @@ public class Cube : MonoBehaviour {
         set
         {
             parentChunk = value;
+        }
+    }
+
+    public Vector3 Position
+    {
+        get
+        {
+            return position;
+        }
+
+        set
+        {
+            position = value;
         }
     }
 

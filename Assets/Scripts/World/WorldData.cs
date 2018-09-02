@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 /*public struct Vector3Int
@@ -32,8 +33,17 @@ public class WorldData : MonoBehaviour
 
     private int radiusWorldChunkX, radiusWorldChunkY, radiusWorldChunkZ; // in chunks
 
-    //public Chunk originChunk;
-    public Cube originCube;
+    public Chunk originChunk;
+
+    public Texture texture;
+
+    //public int tilesPerRow;
+    //public int tilesPerColumn;
+    public int pixelsPerTilePerRow;
+    public int pixelsPerTilePerColumn;
+    //public Tilemap tilemap;
+
+    // public Cube originCube;
 
     private void InitVariables()
     {
@@ -43,6 +53,7 @@ public class WorldData : MonoBehaviour
         radiusWorldChunkY = chunksY / 2;
         radiusWorldChunkZ = chunksZ / 2;
         //originChunk = new Chunk()
+        //texture.
     }
 
     /*private Vector3Int GetRealChunkCoords(int x, int y, int z)
@@ -53,9 +64,9 @@ public class WorldData : MonoBehaviour
     private Vector3 GetRealCoordinatesChunk(int x, int y, int z)
     {
         return new Vector3(
-            x*sizeEdgeX*(chunkWidth/2),     // x edge
-            y*sizeEdgeY*(chunkHeight/2),    // y edge
-            z*sizeEdgeZ*(chunkDepth/2)      // z edge
+            x*sizeEdgeX*(chunkWidth/4),     // x edge
+            y*sizeEdgeY*(chunkHeight/4),    // y edge
+            z*sizeEdgeZ*(chunkDepth/4)      // z edge
         );
     }
 
@@ -81,18 +92,27 @@ public class WorldData : MonoBehaviour
                         
                     );*/
 
-                    chunks[x, y, z] = new Chunk();
+                    /*chunks[x, y, z] = new Chunk();
                     //chunks[x, y, z].RealCoords(GetRealCoordinatesChunk(x, y, z));
                     chunks[x, y, z].realCoords = GetRealCoordinatesChunk(x, y, z);
-                    chunks[x, y, z].Build(this, new Vector3Int(x, y, z), chunkWidth, chunkHeight, chunkDepth);
+                    chunks[x, y, z].Build(this, new Vector3Int(x, y, z), chunkWidth, chunkHeight, chunkDepth);*/
 
-                    /*chunks[x, y, z] = Instantiate(originChunk, newPosition, Quaternion.identity);
+                    chunks[x, y, z] = GameObject.Instantiate<Chunk>(originChunk, GetRealCoordinatesChunk(x, y, z), Quaternion.identity);
                     chunks[x, y, z].gameObject.AddComponent<MeshFilter>();
                     chunks[x, y, z].gameObject.AddComponent<MeshRenderer>();
+                    chunks[x, y, z].RealCoords = GetRealCoordinatesChunk(x, y, z);
                     //chunks[x, y, z].gameObject.AddComponent<MeshFilter>();
-                    chunks[x, y, z].name = "Chunk@[" + x + "," + y + "," + z + "]"; 
-                    chunks[x, y, z].Build(this, new Vector3Int(x, y, z), chunkWidth, chunkHeight, chunkDepth);*/
-                }
+                    chunks[x, y, z].name = "Chunk@[" + x + "," + y + "," + z + "]";
+                    chunks[x, y, z].Xchunk = x;
+                    chunks[x, y, z].Ychunk = y;
+                    chunks[x, y, z].Zchunk = z;
+                    chunks[x, y, z].World = this;
+                    //chunks[x, y, z].Build(this, new Vector3Int(x, y, z), chunkWidth, chunkHeight, chunkDepth);
+
+
+
+                }   
+                
             }
         }
     }

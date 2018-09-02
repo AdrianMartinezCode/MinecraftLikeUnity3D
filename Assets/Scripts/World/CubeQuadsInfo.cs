@@ -87,8 +87,8 @@ public class CubeQuadsInfo {
         //cubes[x, y, z].gameObject.AddComponent<BoxCollider>();
         //Debug.Log(ownCube.name);
 
-        
-        Mesh mesh = ownCube.gameObject.AddComponent<MeshFilter>().mesh;
+
+
         /*Mesh mesh = new Mesh
         {
             vertices = GetAllCoords().ToArray(),
@@ -97,6 +97,9 @@ public class CubeQuadsInfo {
             triangles = GetAllIndexs().ToArray()
         };*/
 
+
+
+        /*Mesh mesh = ownCube.gameObject.AddComponent<MeshFilter>().mesh;
         mesh.Clear();
         //Mesh mesh = new Mesh();
         mesh.SetVertices(GetAllCoords());
@@ -105,7 +108,10 @@ public class CubeQuadsInfo {
         mesh.SetTriangles(GetAllIndexs(), 0);
 
         MeshRenderer rend = ownCube.gameObject.AddComponent<MeshRenderer>();
-        rend.material.mainTexture = ownCube.ParentChunk.mat;
+        rend.material.mainTexture = ownCube.ParentChunk.mat;*/
+
+
+
         //mf.mesh = mesh;
         //mesh.RecalculateBounds();
         //mesh.RecalculateNormals();
@@ -126,11 +132,11 @@ public class CubeQuadsInfo {
     {
         allVertices = new List<Vector3>();
 
-        float nsEdgeX = ownCube.ParentChunk.World.sizeEdgeX / 2;
-        float nsEdgeY = ownCube.ParentChunk.World.sizeEdgeY / 2;
-        float nsEdgeZ = ownCube.ParentChunk.World.sizeEdgeZ / 2;
+        float nsEdgeX = ownCube.ParentChunk.World.sizeEdgeX / 4;
+        float nsEdgeY = ownCube.ParentChunk.World.sizeEdgeY / 4;
+        float nsEdgeZ = ownCube.ParentChunk.World.sizeEdgeZ / 4;
 
-        Vector3 posCube = ownCube.transform.position;
+        Vector3 posCube = ownCube.Position;
 
         allVertices.Add(new Vector3( // 0
             posCube.x - nsEdgeX,
@@ -379,28 +385,28 @@ public class CubeQuadsInfo {
 
         List<Vector3> coords = new List<Vector3> { allVertices[4], allVertices[5], allVertices[6], allVertices[7] };
 
-        Top = new QuadInfo(Vector3.up, coords, new List<int>() { 0, 2, 1, 2, 3, 1 });
+        Top = new QuadInfo(Vector3.up, coords, new List<int>() { 0, 2, 1, 2, 3, 1 }, ownCube);
     }
 
     public void BuildBottomFace()
     {
 
         List<Vector3> coords = new List<Vector3> { allVertices[0], allVertices[1], allVertices[2], allVertices[3] };
-        Bottom = new QuadInfo(Vector3.down, coords, new List<int>() { 0, 1, 2, 2, 1, 3 });
+        Bottom = new QuadInfo(Vector3.down, coords, new List<int>() { 0, 1, 2, 2, 1, 3 }, ownCube);
     }
 
     public void BuildLeftFace()
     {
 
         List<Vector3> coords = new List<Vector3> { allVertices[0], allVertices[2], allVertices[4], allVertices[6] };
-        Left = new QuadInfo(Vector3.left, coords, new List<int>() { 0, 3, 2, 0, 1, 3 });
+        Left = new QuadInfo(Vector3.left, coords, new List<int>() { 0, 3, 2, 0, 1, 3 }, ownCube);
     }
 
     public void BuildRightFace()
     {
 
         List<Vector3> coords = new List<Vector3> { allVertices[1], allVertices[3], allVertices[5], allVertices[7] };
-        Right = new QuadInfo(Vector3.right, coords, new List<int>() { 0, 2, 3, 0, 3, 1 });
+        Right = new QuadInfo(Vector3.right, coords, new List<int>() { 0, 2, 3, 0, 3, 1 }, ownCube);
     }
 
 
@@ -408,14 +414,14 @@ public class CubeQuadsInfo {
     {
 
         List<Vector3> coords = new List<Vector3> { allVertices[0], allVertices[1], allVertices[4], allVertices[5] };
-        Front = new QuadInfo(Vector3.back, coords, new List<int>() { 0, 2, 3, 0, 3, 1 });
+        Front = new QuadInfo(Vector3.back, coords, new List<int>() { 0, 2, 3, 0, 3, 1 }, ownCube);
     }
 
     public void BuildBackFace()
     {
         List<Vector3> coords = new List<Vector3> { allVertices[2], allVertices[3], allVertices[6], allVertices[7] };
 
-        Back = new QuadInfo(Vector3.forward, coords, new List<int>() { 0, 1, 2, 2, 1, 3 });
+        Back = new QuadInfo(Vector3.forward, coords, new List<int>() { 0, 1, 2, 2, 1, 3 }, ownCube);
     }
 
     public Cube OwnCube

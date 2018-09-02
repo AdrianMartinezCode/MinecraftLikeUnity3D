@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chunk {
+public class Chunk : MonoBehaviour
+{
 
     //private float realX, realY, realZ;
-    public Vector3 realCoords;
+    private Vector3 realCoords;
     private int x, y, z;
     private Cube[,,] cubes;
     private MeshBuilder meshBuilder;
     private WorldData world;
 
-    public Texture mat;
+    
 
     //public Chunk(float )
 
@@ -21,14 +22,14 @@ public class Chunk {
     void Start()
     {
         //cubes = new Cube[]
-        
+        Build(new Vector3Int(x, y, z), world.chunkWidth, world.chunkHeight, world.chunkDepth);
 
     }
 
-    public void Build(WorldData world, Vector3Int v, int xLength, int yLength, int zLength)
+    public void Build(Vector3Int v, int xLength, int yLength, int zLength)
     {
-        mat = Resources.Load("Textures/top") as Texture;
-        this.world = world;
+        //mat = Resources.Load("Textures/top") as Texture;
+        //this.world = world;
         AssignCoords(v);
         GenerateCubes(xLength, yLength, zLength);
         meshBuilder = new MeshBuilder(this);
@@ -77,28 +78,32 @@ public class Chunk {
                     //Transform trCube = world.originCube.transform;
                     //trCube.position = GetRealCoordinatesForCube(x, y, z);
 
-                    cubes[x, y, z] = GameObject.Instantiate<Cube>(world.originCube, GetRealCoordinatesForCube(x, y, z), Quaternion.identity);
+                    cubes[x, y, z] = new Cube();
+                    cubes[x, y, z].ParentChunk = this;
+                    cubes[x, y, z].Position = GetRealCoordinatesForCube(x, y, z);
+                    //cubes[x, y, z].Id
+                    //cubes[x, y, z] = GameObject.Instantiate<Cube>(world.originCube, GetRealCoordinatesForCube(x, y, z), Quaternion.identity);
 
                     //cubes[x, y, z].gameObject.AddComponent<Rigidbody>();
                     //cubes[x, y, z].gameObject.AddComponent<MeshFilter>();
                     //cubes[x, y, z].gameObject.AddComponent<BoxCollider>();
                     //cubes[x, y, z].gameObject.AddComponent<MeshRenderer>();
 
-                    
 
-                    cubes[x, y, z].name = "Cube@[" + x + ", " + y + ", " + z + "]";
+
+                    //cubes[x, y, z].name = "Cube@[" + x + ", " + y + ", " + z + "]";
 
                     /*if (x%3 == 0 && y%3 == 0 && z%3 == 0)
                     {
-                        cubes[x, y, z].Id = 1;
+                        cubes[x, y, z].Id = ((int)(Random.value * 20)) % 4 + 1;
                     }
                     else
                     {
-                        cubes[x, y, z].Id = 0;
+                        cubes[x, y, z].Id = 8;
                     }*/
-                    cubes[x, y, z].Id = ((int)(Random.value * 20)) % 2;
+                    cubes[x, y, z].Id = ((int)(Random.value*20)%2)*(((int)(Random.value * 255)) % 255);
                     //cubes[x, y, z].Id = 1;
-                    cubes[x, y, z].ParentChunk = this;
+                    //cubes[x, y, z].ParentChunk = this;
 
                     //Debug.Log("Cube@[" + cubes[x, y, z].transform.position.x + ", " + cubes[x, y, z].transform.position.y + ", " + cubes[x, y, z].transform.position.z + "]");
 
@@ -158,11 +163,25 @@ public class Chunk {
     public WorldData World
     {
         get { return world; }
+        set { world = value; }
     }
 
     public Vector3 RealCoords
     {
         get { return realCoords; }
         set { realCoords = value; }
+    }
+
+    public WorldData World1
+    {
+        get
+        {
+            return world;
+        }
+
+        set
+        {
+            world = value;
+        }
     }
 }

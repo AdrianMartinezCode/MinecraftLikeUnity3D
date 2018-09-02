@@ -31,7 +31,7 @@ public class MeshBuilder
         
 
 
-        /*List<Vector3> allVerts = new List<Vector3>();
+        List<Vector3> allVerts = new List<Vector3>();
         List<Vector3> allNormals = new List<Vector3>();
         List<Vector2> allUvs = new List<Vector2>();
         List<int> allInds = new List<int>();
@@ -52,15 +52,28 @@ public class MeshBuilder
 
         }
 
-        MeshFilter mf = chunk.GetComponent<MeshFilter>();
-        Mesh mesh = new Mesh
+        //MeshRenderer mr = chunk.gameObject.AddComponent<MeshRenderer>();
+       // Debug.Log(chunk);
+        //Debug.Log(chunk.gameObject.GetComponent<MeshFilter>());
+        //Debug.Log(chunk.gameObject.AddComponent<MeshFilter>());
+        Mesh mesh = chunk.gameObject.GetComponent<MeshFilter>().mesh;
+        mesh.Clear();
+        //Mesh mesh = new Mesh();
+        mesh.SetVertices(allVerts);
+        mesh.SetNormals(allNormals);
+        mesh.SetUVs(0, allUvs);
+        mesh.SetTriangles(allInds, 0);
+
+        MeshRenderer rend = chunk.gameObject.GetComponent<MeshRenderer>();
+        rend.material.mainTexture = chunk.World.texture;
+        /*Mesh mesh = new Mesh
         {
             vertices = allVerts.ToArray(),
             normals = allNormals.ToArray(),
             uv = allUvs.ToArray(),
             triangles = allInds.ToArray()
-        };
-        mf.mesh = mesh;*/
+        };*/
+        //mf.mesh = mesh;
         //mesh.RecalculateBounds();
 
 
@@ -118,12 +131,12 @@ public class MeshBuilder
             }
         }*/
 
-        foreach (KeyValuePair<Vector3Int, CubeQuadsInfo> p in cubes)
+        /*foreach (KeyValuePair<Vector3Int, CubeQuadsInfo> p in cubes)
         {
             GameObject.Destroy(p.Value.OwnCube.GetComponent<MeshFilter>().mesh);
             p.Value.OwnCube.QuadsInfo = null;
         }
-        cubes.Clear();
+        cubes.Clear();*/
     }
 
 

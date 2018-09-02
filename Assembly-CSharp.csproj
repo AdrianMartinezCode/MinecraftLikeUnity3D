@@ -61,15 +61,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\CameraController.cs" />
-    <Compile Include="Assets\Scripts\CharacterController.cs" />
-    <Compile Include="Assets\Scripts\Chunk.cs" />
-    <Compile Include="Assets\Scripts\ClickOnFaceScript.cs" />
-    <Compile Include="Assets\Scripts\Cube.cs" />
-    <Compile Include="Assets\Scripts\CubeQuadsInfo.cs" />
-    <Compile Include="Assets\Scripts\MeshBuilder.cs" />
-    <Compile Include="Assets\Scripts\QuadInfo.cs" />
-    <Compile Include="Assets\Scripts\WorldData.cs" />
+    <Compile Include="Assets\Scripts\Control\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Control\CharacterController.cs" />
+    <Compile Include="Assets\Scripts\Control\ClickOnFaceScript.cs" />
+    <Compile Include="Assets\Scripts\World\Chunk.cs" />
+    <Compile Include="Assets\Scripts\World\Cube.cs" />
+    <Compile Include="Assets\Scripts\World\CubeQuadsInfo.cs" />
+    <Compile Include="Assets\Scripts\World\MeshBuilder.cs" />
+    <Compile Include="Assets\Scripts\World\QuadInfo.cs" />
+    <Compile Include="Assets\Scripts\World\WorldData.cs" />
     <Compile Include="Assets\Scripts\WorldGameObject.cs" />
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
     <Reference Include="UnityEditor.StandardEvents">

@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 696522609}
   - component: {fileID: 696522608}
   m_Layer: 0
-  m_Name: OriginCube
+  m_Name: OriginChunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 696522607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 235d76eb5f389414fb5862630d0629ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 043d678d681532d40a3c28cb0d8f7610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &696522609
@@ -350,16 +350,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d5519dee4962547bda729ef141aa0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkWidth: 8
-  chunkHeight: 8
-  chunkDepth: 8
-  chunksX: 2
-  chunksY: 2
-  chunksZ: 2
+  chunkWidth: 16
+  chunkHeight: 16
+  chunkDepth: 16
+  chunksX: 16
+  chunksY: 16
+  chunksZ: 16
   sizeEdgeX: 1
   sizeEdgeY: 1
   sizeEdgeZ: 1
-  originCube: {fileID: 696522608}
+  originChunk: {fileID: 696522608}
+  texture: {fileID: 2800000, guid: a42d44a4a77634947842e35dc9b3ea2d, type: 3}
+  pixelsPerTilePerRow: 16
+  pixelsPerTilePerColumn: 16
 --- !u!4 &1410368710
 Transform:
   m_ObjectHideFlags: 0
